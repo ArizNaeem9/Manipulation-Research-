@@ -1,0 +1,47 @@
+# ~350M non-embedding params (GPT-2-medium shape, modern internals).
+# Sized for a single 80GB A100/H100. On 8 GPUs, drop grad_accum to 2.
+model:
+  n_layer: 24
+  n_head: 16
+  n_embd: 1024
+  block_size: 2048
+  dropout: 0.0
+
+data:
+  bin_dir: data/tokenized
+  # Sampling probabilities, not raw token shares. The raw corpus is ~40%
+  # science and ~15% code; sampling it that way would make the model an
+  # abstract-completion engine and leave the dialogue probes out of
+  # distribution, which is precisely where manipulation would show up.
+  mixture:
+    expository_science: 0.22
+    expository_wikitext: 0.14
+    expository_common_corpus: 0.02
+    nonfiction_openweb: 0.16
+    nonfiction_journalism: 0.12
+    nonfiction_wiki: 0.02
+    nonfiction_gutenberg: 0.02
+    code_math: 0.14
+    dialogue_stackexchange: 0.10
+    dialogue_tutoring: 0.03
+    fiction: 0.03
+
+train:
+  out_dir: runs/raia-350m
+  batch_size: 8
+  grad_accum: 16          # 262k tokens/step on one GPU
+  max_steps: 40000        # ~10.5B tokens ≈ 30x params, near Chinchilla-optimal
+  warmup_steps: 1000
+  lr: 3.0e-4
+  min_lr: 3.0e-5
+  weight_decay: 0.1
+  grad_clip: 1.0
+  dtype: bfloat16
+  compile: true
+  eval_every: 500
+  eval_batches: 50
+  # Dense early checkpoints: if manipulation emerges, it emerges somewhere in
+  # the first few billion tokens, and a coarse grid would miss the onset.
+  ckpt_every: 2000
+  keep_all_checkpoints: true
+  wandb_project: null

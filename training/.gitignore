@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+*.pkl
+
+# Generated artifacts — all reproducible from the commands in README.md.
+# Leading slash anchors these to the training/ root: an unanchored `data/`
+# would also match the raia/data/ source package and silently drop it.
+/data/
+/runs/
+/reports/
+/wandb/
+*.bin
+*.pt

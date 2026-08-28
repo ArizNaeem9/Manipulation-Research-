@@ -1,0 +1,21 @@
+# Core training
+torch>=2.4.0
+numpy>=1.24.0
+tiktoken>=0.7.0
+tqdm>=4.66.0
+
+# Config
+pyyaml>=6.0
+
+# Evaluation
+scikit-learn>=1.3.0        # linear probes, TF-IDF manipulation classifier
+pydantic>=2.0              # typed schema for the Claude judge
+
+# LLM judge (optional — only needed for raia/eval/judge.py)
+anthropic>=0.69.0
+
+# Reference-corpus mining (optional — only needed for build_reference.py)
+datasets>=2.20.0
+
+# Logging (optional)
+wandb>=0.17.0

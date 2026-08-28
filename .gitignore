@@ -1,0 +1,50 @@
+# =============================================================================
+# Corpora — NEVER commit these.
+# The corpus is ~151GB and individual files reach 47GB. GitHub rejects any file
+# over 100MB outright, so a push including these fails rather than succeeding
+# slowly. The corpus is reproducible from the extract_*.py scripts (which ARE
+# tracked) plus the checkpoint_*.json record of how far each stream was read.
+# =============================================================================
+*.jsonl
+*.jsonl.gz
+*.arrow
+*.parquet
+
+# Tokenized corpora and model weights
+*.bin
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.npy
+*.npz
+*.pkl
+
+# Generated experiment artifacts (see training/README.md to regenerate)
+training/data/
+training/runs/
+training/reports/
+wandb/
+
+# Secrets — the eval scripts read ANTHROPIC_API_KEY from the environment;
+# nothing should ever land in a tracked file.
+.env
+.env.*
+!.env.example
+*.key
+credentials.json
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+.ipynb_checkpoints/
+*.egg-info/
+
+# macOS / editors
+.DS_Store
+.vscode/
+.idea/
+*.swp

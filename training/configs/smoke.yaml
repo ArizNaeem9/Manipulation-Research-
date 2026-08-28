@@ -1,0 +1,30 @@
+# End-to-end smoke test: tiny model, tiny data, runs on a laptop CPU/MPS.
+# Verifies the pipeline, proves nothing about the hypothesis.
+model:
+  n_layer: 2
+  n_head: 2
+  n_embd: 128
+  block_size: 256
+  dropout: 0.0
+
+data:
+  bin_dir: data/smoke
+  mixture:
+    dialogue_tutoring: 0.5
+    nonfiction_wiki: 0.5
+
+train:
+  out_dir: runs/smoke
+  batch_size: 2
+  grad_accum: 1
+  max_steps: 40
+  warmup_steps: 5
+  lr: 1.0e-3
+  min_lr: 1.0e-4
+  dtype: float32
+  compile: false
+  log_every: 10
+  eval_every: 20
+  eval_batches: 3
+  ckpt_every: 20
+  keep_all_checkpoints: true
